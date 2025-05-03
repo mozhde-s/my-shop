@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>فروشگاه تمرینی</title>
+  <style>
+    body { font-family: sans-serif; direction: rtl; padding: 20px; background: #f5f5f5; }
+    .product { border: 1px solid #ccc; padding: 10px; margin: 10px 0; background: white; }
+    .cart { margin-top: 20px; background: white; padding: 10px; border: 1px solid #ccc; }
+    button { padding: 6px 12px; margin: 5px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>فروشگاه تمرینی</h1>
+
+  <div class="product" data-id="1" data-name="کفش اسپرت" data-price="300000">
+    <h2>کفش اسپرت</h2>
+    <p>قیمت: 300,000 تومان</p>
+    <button onclick="addToCart(1)">افزودن به سبد خرید</button>
+  </div>
+
+  <div class="product" data-id="2" data-name="کوله پشتی" data-price="200000">
+    <h2>کوله پشتی</h2>
+    <p>قیمت: 200,000 تومان</p>
+    <button onclick="addToCart(2)">افزودن به سبد خرید</button>
+  </div>
+
+  <div class="cart">
+    <h3>سبد خرید</h3>
+    <ul id="cart-list"></ul>
+    <p>جمع کل: <span id="total">0</span> تومان</p>
+    <button onclick="checkout()">پرداخت</button>
+  </div>
+
+  <div id="thankyou" style="display: none; margin-top: 20px; padding: 10px; background: #d4edda; color: #155724;">
+    <h3>سفارش با موفقیت ثبت شد. با تشکر!</h3>
+  </div>
+
+  <script>
+    const products = {
+      1: { name: 'کفش اسپرت', price: 300000 },
+      2: { name: 'کوله پشتی', price: 200000 }
+    };
+
+    let cart = [];
+
+    function addToCart(id) {
+      cart.push(products[id]);
+      renderCart();
+    }
+
+    function renderCart() {
+      const list = document.getElementById('cart-list');
+      const total = document.getElementById('total');
+      list.innerHTML = '';
+      let sum = 0;
+      cart.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item.name + ' - ' + item.price.toLocaleString() + ' تومان';
+        list.appendChild(li);
+        sum += item.price;
+      });
+      total.textContent = sum.toLocaleString();
+    }
+
+    function checkout() {
+      if (cart.length === 0) return alert('سبد خرید خالی است.');
+      document.querySelector('.cart').style.display = 'none';
+      document.getElementById('thankyou').style.display = 'block';
+      cart = [];
+    }
+  </script>
+</body>
+</html>
